@@ -1,6 +1,6 @@
 package com.assessment.device.service;
 
-import com.assessment.device.domain.Device;
+import com.assessment.device.dto.Device;
 import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.domain.DeviceState;
 import com.assessment.device.domain.exception.DeviceNotFoundException;

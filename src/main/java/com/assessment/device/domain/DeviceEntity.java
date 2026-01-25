@@ -1,6 +1,7 @@
 package com.assessment.device.domain;
 
 import com.assessment.device.domain.exception.IllegalDeviceStateException;
+import com.assessment.device.dto.Device;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

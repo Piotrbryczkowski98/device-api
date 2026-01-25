@@ -2,9 +2,8 @@ package com.assessment.device.api;
 
 import com.assessment.device.api.request.CreateDeviceRequest;
 import com.assessment.device.api.request.UpdateDeviceRequest;
-import com.assessment.device.domain.Device;
 import com.assessment.device.domain.DeviceState;
-import com.assessment.device.domain.DeviceEntity;
+import com.assessment.device.dto.Device;
 import com.assessment.device.service.DeviceService;
 import jakarta.validation.Valid;
 import java.util.List;

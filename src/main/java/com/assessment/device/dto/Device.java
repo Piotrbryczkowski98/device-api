@@ -1,5 +1,6 @@
-package com.assessment.device.domain;
+package com.assessment.device.dto;
 
+import com.assessment.device.domain.DeviceState;
 import java.time.Instant;
 import java.util.UUID;
 
