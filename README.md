@@ -5,4 +5,4 @@ Tasks:
 - T3 - Add functionality to Fully and/or partially update an existing device
 - T4 - Fetch a single device.
 - T5 - Fetch all devices/Fetch devices by brand/Fetch devices by state. 
-- T7 - Delete a single device.
+- T6 - Delete a single device.
