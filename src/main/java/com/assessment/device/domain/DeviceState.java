@@ -1,4 +1,4 @@
-package com.assessment.device_api.model;
+package com.assessment.device.domain;
 
 public enum DeviceState {
     AVAILABLE,

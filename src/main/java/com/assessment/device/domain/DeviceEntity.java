@@ -1,4 +1,4 @@
-package com.assessment.device_api.model;
+package com.assessment.device.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

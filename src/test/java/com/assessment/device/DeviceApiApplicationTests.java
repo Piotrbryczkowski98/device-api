@@ -1,4 +1,4 @@
-package com.assessment.device_api;
+package com.assessment.device;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

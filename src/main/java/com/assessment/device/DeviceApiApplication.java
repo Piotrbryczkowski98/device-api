@@ -1,4 +1,4 @@
-package com.assessment.device_api;
+package com.assessment.device;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class DeviceApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DeviceApiApplication.class, args);
 	}
-
 }
