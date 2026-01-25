@@ -1,4 +1,4 @@
-package com.assessment.device.domain;
+package com.assessment.device.domain.exception;
 
 public class IllegalDeviceStateException extends RuntimeException {
     public IllegalDeviceStateException(String message) {
