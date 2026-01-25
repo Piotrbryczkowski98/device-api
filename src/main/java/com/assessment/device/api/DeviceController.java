@@ -1,12 +1,15 @@
 package com.assessment.device.api;
 
+import com.assessment.device.api.request.CreateDeviceRequest;
 import com.assessment.device.domain.DeviceState;
-import com.assessment.device.persistence.DeviceRepository;
 import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.service.DeviceService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +21,18 @@ public class DeviceController {
 
     private final DeviceService deviceService;
 
-    @GetMapping("/devices")
+    @GetMapping
     public List<DeviceEntity> findAllDevices(@RequestParam(required = false) String brand, @RequestParam(required = false) DeviceState state) {
         return deviceService.findDevices(brand, state);
+    }
+
+    @PostMapping
+    public DeviceEntity createNewDevice(@RequestBody @Valid CreateDeviceRequest request) {
+        return deviceService.createDevice(
+                request.name(),
+                request.brand(),
+                request.state()
+        );
     }
 }
 

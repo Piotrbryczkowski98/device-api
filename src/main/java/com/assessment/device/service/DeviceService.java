@@ -5,6 +5,7 @@ import com.assessment.device.domain.DeviceState;
 import com.assessment.device.persistence.DeviceRepository;
 import com.assessment.device.persistence.DeviceSpecifications;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,14 @@ public class DeviceService {
     public List<DeviceEntity> findDevices(String brand, DeviceState state) {
         Specification<DeviceEntity> spec = DeviceSpecifications.buildSpec(brand, state);
         return deviceRepository.findAll(spec);
+    }
+
+    public DeviceEntity createDevice(String name, String brand, DeviceState state) {
+        var device = DeviceEntity.builder()
+                .name(name)
+                .brand(brand)
+                .state(state)
+                .build();
+        return deviceRepository.save(device);
     }
 }
