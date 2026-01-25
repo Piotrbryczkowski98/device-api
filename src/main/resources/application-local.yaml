@@ -3,4 +3,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/device_db
     username: device_user
     password: device_verysecurepassword
-    driver-class-name: org.postgresql.Driver
