@@ -4,8 +4,10 @@ import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.domain.DeviceState;
 import com.assessment.device.persistence.DeviceRepository;
 import com.assessment.device.persistence.DeviceSpecifications;
+import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,16 @@ public class DeviceService {
                 .brand(brand)
                 .state(state)
                 .build();
+        return deviceRepository.save(device);
+    }
+
+    @Transactional
+    public DeviceEntity updateDevice(UUID id, String name, String brand, DeviceState newState) {
+        var device = deviceRepository.findById(id).orElseThrow();
+        device.validateUpdate(name, brand);
+        Optional.ofNullable(name).ifPresent(device::setName);
+        Optional.ofNullable(brand).ifPresent(device::setBrand);
+        Optional.ofNullable(newState).ifPresent(device::setState);
         return deviceRepository.save(device);
     }
 }
