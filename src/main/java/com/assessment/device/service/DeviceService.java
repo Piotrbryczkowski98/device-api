@@ -1,5 +1,6 @@
 package com.assessment.device.service;
 
+import com.assessment.device.domain.exception.IllegalDeviceStateException;
 import com.assessment.device.dto.Device;
 import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.domain.DeviceState;
@@ -58,5 +59,16 @@ public class DeviceService {
                 .findById(id)
                 .orElseThrow(() -> new DeviceNotFoundException(id))
                 .toDTO();
+    }
+
+    @Transactional
+    public void deleteDeviceById(UUID id) {
+        var device = deviceRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(id));
+
+        if(device.getState() == DeviceState.IN_USE) {
+            throw new IllegalDeviceStateException("Device with state IN_USE cannot be deleted");
+        }
+        deviceRepository.delete(device);
     }
 }
