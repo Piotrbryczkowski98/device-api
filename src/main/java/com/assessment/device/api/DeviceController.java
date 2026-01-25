@@ -5,7 +5,6 @@ import com.assessment.device.api.request.UpdateDeviceRequest;
 import com.assessment.device.domain.DeviceState;
 import com.assessment.device.dto.Device;
 import com.assessment.device.service.DeviceService;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -35,7 +34,7 @@ public class DeviceController {
     }
 
     @PostMapping
-    public Device createNewDevice(@RequestBody @Valid CreateDeviceRequest request) {
+    public Device createNewDevice(@RequestBody CreateDeviceRequest request) {
         return deviceService.createDevice(
                 request.name(),
                 request.brand(),
