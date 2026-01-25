@@ -15,6 +15,9 @@ spring:
       ddl-auto: validate
   jackson:
     default-property-inclusion: non_null
+  web:
+    error:
+      include-message: always
 management:
   endpoints:
     web:
