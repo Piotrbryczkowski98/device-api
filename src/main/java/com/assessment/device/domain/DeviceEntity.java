@@ -1,5 +1,6 @@
 package com.assessment.device.domain;
 
+import com.assessment.device.domain.exception.IllegalDeviceStateException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -60,5 +61,15 @@ public class DeviceEntity {
                 throw new IllegalDeviceStateException("Cannot update name or brand while device is IN_USE");
             }
         }
+    }
+
+    public Device toDTO() {
+        return new Device(
+                this.getId(),
+                this.getName(),
+                this.getBrand(),
+                this.getState(),
+                this.getCreationTime()
+        );
     }
 }

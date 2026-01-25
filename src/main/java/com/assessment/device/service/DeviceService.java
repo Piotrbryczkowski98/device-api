@@ -1,7 +1,9 @@
 package com.assessment.device.service;
 
+import com.assessment.device.domain.Device;
 import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.domain.DeviceState;
+import com.assessment.device.domain.exception.DeviceNotFoundException;
 import com.assessment.device.persistence.DeviceRepository;
 import com.assessment.device.persistence.DeviceSpecifications;
 import jakarta.transaction.Transactional;
@@ -18,27 +20,43 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
 
-    public List<DeviceEntity> findDevices(String brand, DeviceState state) {
+    public List<Device> findDevices(String brand, DeviceState state) {
         Specification<DeviceEntity> spec = DeviceSpecifications.buildSpec(brand, state);
-        return deviceRepository.findAll(spec);
+        return deviceRepository
+                .findAll(spec)
+                .stream()
+                .map(DeviceEntity::toDTO)
+                .toList();
     }
 
-    public DeviceEntity createDevice(String name, String brand, DeviceState state) {
-        var device = DeviceEntity.builder()
+    public Device createDevice(String name, String brand, DeviceState state) {
+        var device = DeviceEntity
+                .builder()
                 .name(name)
                 .brand(brand)
                 .state(state)
                 .build();
-        return deviceRepository.save(device);
+        return deviceRepository
+                .save(device)
+                .toDTO();
     }
 
     @Transactional
-    public DeviceEntity updateDevice(UUID id, String name, String brand, DeviceState newState) {
+    public Device updateDevice(UUID id, String name, String brand, DeviceState newState) {
         var device = deviceRepository.findById(id).orElseThrow();
         device.validateUpdate(name, brand);
         Optional.ofNullable(name).ifPresent(device::setName);
         Optional.ofNullable(brand).ifPresent(device::setBrand);
         Optional.ofNullable(newState).ifPresent(device::setState);
-        return deviceRepository.save(device);
+        return deviceRepository
+                .save(device)
+                .toDTO();
+    }
+
+    public Device findDeviceById(UUID id) {
+        return deviceRepository
+                .findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(id))
+                .toDTO();
     }
 }

@@ -2,6 +2,7 @@ package com.assessment.device.api;
 
 import com.assessment.device.api.request.CreateDeviceRequest;
 import com.assessment.device.api.request.UpdateDeviceRequest;
+import com.assessment.device.domain.Device;
 import com.assessment.device.domain.DeviceState;
 import com.assessment.device.domain.DeviceEntity;
 import com.assessment.device.service.DeviceService;
@@ -28,12 +29,12 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @GetMapping
-    public List<DeviceEntity> findAllDevices(@RequestParam(required = false) String brand, @RequestParam(required = false) DeviceState state) {
+    public List<Device> findAllDevices(@RequestParam(required = false) String brand, @RequestParam(required = false) DeviceState state) {
         return deviceService.findDevices(brand, state);
     }
 
     @PostMapping
-    public DeviceEntity createNewDevice(@RequestBody @Valid CreateDeviceRequest request) {
+    public Device createNewDevice(@RequestBody @Valid CreateDeviceRequest request) {
         return deviceService.createDevice(
                 request.name(),
                 request.brand(),
@@ -42,7 +43,7 @@ public class DeviceController {
     }
 
     @PatchMapping("/{id}")
-    public DeviceEntity updateDevice(
+    public Device updateDevice(
             @PathVariable UUID id,
             @RequestBody UpdateDeviceRequest request
     ) {
@@ -56,6 +57,11 @@ public class DeviceController {
                 request.brand().orElse(null),
                 request.state().orElse(null)
         );
+    }
+
+    @GetMapping("/{id}")
+    public Device findDeviceById(@PathVariable UUID id) {
+        return deviceService.findDeviceById(id);
     }
 }
 
