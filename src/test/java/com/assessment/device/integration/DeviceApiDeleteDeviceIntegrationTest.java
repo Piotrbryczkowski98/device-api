@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 public class DeviceApiDeleteDeviceIntegrationTest extends AbstractIntegrationTest {
 
@@ -54,5 +55,36 @@ public class DeviceApiDeleteDeviceIntegrationTest extends AbstractIntegrationTes
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @SqlGroup({
+            @Sql(
+                    scripts = {"/sql/input/insert_single_in_use_device.sql"},
+                    executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+            ),
+            @Sql(
+                    scripts = "/sql/input/cleanup.sql",
+                    executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+            )
+    })
+    @Test
+    @DisplayName("DELETE /device/{id} - Should return 400 when device is IN_USE")
+    void shouldReturn400_WhenDeletingInUseDevice() {
+        UUID inUseId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+
+        ResponseEntity<ProblemDetail> response = restTemplate.exchange(
+                "/device/" + inUseId,
+                HttpMethod.DELETE,
+                null,
+                ProblemDetail.class
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getDetail())
+                .contains("Device with state IN_USE cannot be deleted");
+
+        boolean exists = deviceRepository.existsById(inUseId);
+        assertThat(exists).isTrue();
     }
 }
