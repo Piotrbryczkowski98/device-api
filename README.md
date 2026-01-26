@@ -54,6 +54,8 @@ docker-compose up -d
 ```
 Or run in  your favorite IDE (for example IntelliJ) with `local` profile
 
+Access Swagger Documentation available at: http://localhost:8080/swagger-ui/index.html
+
 ## Development Process & Branching Strategy
 
 To maintain a "production-ready" workflow and ensure granular, traceable changes, this project followed a feature-branching strategy. Each task was developed in an isolated branch before being merged into the main line.
