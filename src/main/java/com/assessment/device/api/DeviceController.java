@@ -5,10 +5,17 @@ import com.assessment.device.api.request.UpdateDeviceRequest;
 import com.assessment.device.domain.DeviceState;
 import com.assessment.device.dto.Device;
 import com.assessment.device.service.DeviceService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +37,16 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @GetMapping
-    public List<Device> findAllDevices(@RequestParam(required = false) String brand, @RequestParam(required = false) DeviceState state) {
-        return deviceService.findDevices(brand, state);
+    @Parameter(name = "pageable", hidden = true)
+    @Parameters({
+            @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0")),
+            @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "10")),
+            @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string", example = "creationTime,desc"))
+    })
+    public Page<Device> findAllDevices(@RequestParam(required = false) String brand,
+                                       @RequestParam(required = false) DeviceState state,
+                                       @PageableDefault(sort = "creationTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return deviceService.findDevices(brand, state, pageable);
     }
 
     @PostMapping

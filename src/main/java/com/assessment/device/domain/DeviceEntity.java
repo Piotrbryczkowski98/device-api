@@ -59,7 +59,7 @@ public class DeviceEntity {
             boolean brandChanged = newBrand != null && !newBrand.equals(this.brand);
 
             if (nameChanged || brandChanged) {
-                throw new IllegalDeviceStateException("Cannot update name or brand while device is IN_USE");
+                throw new IllegalDeviceStateException("Cannot update name or brand while device is IN_USE. Update the state first and try again.");
             }
         }
     }

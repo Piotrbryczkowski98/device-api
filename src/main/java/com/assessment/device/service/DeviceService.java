@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,12 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
 
-    public List<Device> findDevices(String brand, DeviceState state) {
+    public Page<Device> findDevices(String brand, DeviceState state, Pageable pageable) {
         Specification<DeviceEntity> spec = DeviceSpecifications.buildSpec(brand, state);
+
         return deviceRepository
-                .findAll(spec)
-                .stream()
-                .map(DeviceEntity::toDTO)
-                .toList();
+                .findAll(spec, pageable)
+                .map(DeviceEntity::toDTO);
     }
 
     public Device createDevice(String name, String brand, DeviceState state) {

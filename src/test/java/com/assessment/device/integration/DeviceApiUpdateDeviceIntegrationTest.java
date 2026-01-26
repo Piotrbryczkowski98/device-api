@@ -53,7 +53,7 @@ public class DeviceApiUpdateDeviceIntegrationTest extends AbstractIntegrationTes
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getDetail())
-                .contains("Cannot update name or brand while device is IN_USE");
+                .contains("Cannot update name or brand while device is IN_USE. Update the state first and try again.");
     }
 
     @SqlGroup({
