@@ -29,7 +29,16 @@ Due to the time constraints of this challenge, the following enhancements are re
 - **Advanced Logging**: Implementation of structured JSON logging and a centralized log aggregation strategy (e.g., ELK Stack) to improve auditability and debugging in distributed environments.
 - **Security**: Addition of Spring Security with OAuth2/JWT to protect endpoints, as current access is open for demonstration purposes.
 - **(Small) structural changes**: for example introducing Hexagonal Architecture
-- **Concurrency Control (Microservice Readiness)**: Implementation of Optimistic Locking (using @Version) to handle concurrent updates gracefully.
+- **Linter/test validator**
+- **CI/CD pipeline**
+- **Concurrency Control (Microservice Readiness)**: Implementation of Optimistic/Pessimistic Locking to handle concurrent updates gracefully.
+
+
+## Business logic assumptions
+
+Based on the provided document, the following business cases should be discussed further in the UPDATE logic:
+- When IN_USE device's state is updated, can we update the name or brand in the same request, or should that happen after state was successfully changed?
+- When we change status to IN_USE, can we at the same time change the name and/or brand?
 
 ## Getting Started
 
