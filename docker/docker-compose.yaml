@@ -25,7 +25,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/device_db
       - SPRING_DATASOURCE_USERNAME=device_user
       - SPRING_DATASOURCE_PASSWORD=device_verysecurepassword
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       db:
         condition: service_healthy
