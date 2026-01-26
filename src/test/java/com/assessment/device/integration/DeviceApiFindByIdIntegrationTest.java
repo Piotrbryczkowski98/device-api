@@ -1,7 +1,8 @@
-package com.assessment.device;
+package com.assessment.device.integration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.assessment.device.AbstractIntegrationTest;
 import com.assessment.device.dto.Device;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ public class DeviceApiFindByIdIntegrationTest extends AbstractIntegrationTest {
     @Test
     @SqlGroup({
             @Sql(
-                    scripts = {"/sql/input/insert_single_device.sql"},
+                    scripts = {"/sql/input/insert_single_in_use_device.sql"},
                     executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
             ),
             @Sql(

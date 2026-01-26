@@ -1,7 +1,8 @@
-package com.assessment.device;
+package com.assessment.device.integration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.assessment.device.AbstractIntegrationTest;
 import com.assessment.device.dto.Device;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
