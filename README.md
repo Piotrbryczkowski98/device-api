@@ -18,15 +18,18 @@ A production-ready RESTful API built with **Java 21** and **Spring Boot 3** for 
 * **Testcontainers** (For reliable integration testing)
 * **Docker & Docker Compose** (Containerization)
 * **Swagger/OpenAPI 3** (Interactive API Documentation)
+* **Flyway** (Database version control and migration management)
 * **Gradle 8**
 
 ## Future Improvements & Production Readiness
 Due to the time constraints of this challenge, the following enhancements are recommended for a true production-grade deployment:
-- Caching: Implementation of a caching layer (e.g., Redis or Caffeine) for the findAll and fetchByBrand endpoints to reduce databas e load and improve response latency for frequently accessed device lists.
-- Observability (Tracing): Integration with distributed tracing tools like OpenTelemetry or Jaeger (commonly used in environments like OpenShift or Kubernetes) to track request flows across microservices.
-- Monitoring: Expanding the current Spring Boot Actuator setup to export metrics to Prometheus and Grafana for real-time performance dashboards and alerting.
-- Advanced Logging: Implementation of structured JSON logging and a centralized log aggregation strategy (e.g., ELK Stack) to improve auditability and debugging in distributed environments.
-- Security: Addition of Spring Security with OAuth2/JWT to protect endpoints, as current access is open for demonstration purposes.
+- **Caching**: Implementation of a caching layer (e.g., Redis or Caffeine) for the findAll and fetchByBrand endpoints to reduce databas e load and improve response latency for frequently accessed device lists.
+- **Observability (Tracing)**: Integration with distributed tracing tools like OpenTelemetry or Jaeger (commonly used in environments like OpenShift or Kubernetes) to track request flows across microservices.
+- **Monitoring**: Expanding the current Spring Boot Actuator setup to export metrics to Prometheus and Grafana for real-time performance dashboards and alerting.
+- **Advanced Logging**: Implementation of structured JSON logging and a centralized log aggregation strategy (e.g., ELK Stack) to improve auditability and debugging in distributed environments.
+- **Security**: Addition of Spring Security with OAuth2/JWT to protect endpoints, as current access is open for demonstration purposes.
+- **(Small) structural changes**: for example introducing Hexagonal Architecture
+- **Concurrency Control (Microservice Readiness)**: Implementation of Optimistic Locking (using @Version) to handle concurrent updates gracefully.
 
 ## Getting Started
 
@@ -41,5 +44,28 @@ cd docker
 docker-compose up -d
 ```
 Or run in  your favorite IDE (for example IntelliJ) with `local` profile
+
+## Development Process & Branching Strategy
+
+To maintain a "production-ready" workflow and ensure granular, traceable changes, this project followed a feature-branching strategy. Each task was developed in an isolated branch before being merged into the main line.
+
+### Branching Convention
+* `chore/`: Infrastructure, configuration, and boilerplate.
+* `feat/`: New functional requirements and business logic.
+* `test/`: Test suite implementation and coverage improvements.
+
+### Task Roadmap & Commit History
+| Branch | Task | Description                                                     |
+| :--- | :--- |:----------------------------------------------------------------|
+| `chore/T0` | **Setup** | Project initialization, Docker/Postgres config, and Swagger UI. |
+| `feat/T1` | **Domain** | Entity mapping and Repository layer setup.                      |
+| `feat/T2` | **Creation** | POST endpoint for device registration.                          |
+| `feat/T3` | **Updates** | Full and Partial updates with domain validations.               |
+| `feat/T4` | **Retrieval** | GET endpoint for single resource lookup by ID.                  |
+| `feat/T5` | **Filtering** | Brand/State filtering using Spring Data Specifications.         |
+| `feat/T6` | **Deletion** | Logic for secure deletion (protecting `IN_USE` devices).        |
+| `test/T7` | **Testing** | Integration tests with Testcontainers and Unit testing.         |
+
+> **Note:** T7 branching should be test instead of chore, but due to late hour....
 
 
