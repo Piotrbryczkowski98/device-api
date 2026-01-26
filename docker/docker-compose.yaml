@@ -1,5 +1,5 @@
 services:
-  postgres:
+  db:
     image: postgres:16-alpine
     container_name: device-api-db
     ports:
@@ -8,9 +8,24 @@ services:
       - POSTGRES_DB=device_db
       - POSTGRES_USER=device_user
       - POSTGRES_PASSWORD=device_verysecurepassword
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U device_user -d device_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-volumes:
-  postgres-data:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: device-api-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/device_db
+      - SPRING_DATASOURCE_USERNAME=device_user
+      - SPRING_DATASOURCE_PASSWORD=device_verysecurepassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      db:
+        condition: service_healthy
