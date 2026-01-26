@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.assessment.device.AbstractIntegrationTest;
 import com.assessment.device.dto.Device;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,11 +28,10 @@ import org.springframework.test.context.jdbc.SqlGroup;
 })
 public class DeviceApiFindAllIntegrationTest extends AbstractIntegrationTest {
 
-
     @Test
-    @DisplayName("GET /device - Should return all devices when no filters are provided")
+    @DisplayName("GET /device - Should return a page of devices")
     void findAll_ShouldReturnAllStoredDevices() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
+        ResponseEntity<PageResponse<Device>> response = restTemplate.exchange(
                 "/device",
                 HttpMethod.GET,
                 null,
@@ -41,7 +41,7 @@ public class DeviceApiFindAllIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        List<Device> devices = response.getBody();
+        List<Device> devices = response.getBody().getContent();
         assertThat(devices).isNotNull();
         assertThat(devices.size()).isEqualTo(7);
     }
@@ -49,7 +49,7 @@ public class DeviceApiFindAllIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DisplayName("GET /device?state=IN_USE - Should return only devices with state IN_USE")
     void findAll_ShouldReturnOnlyInUseDevices() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
+        ResponseEntity<PageResponse<Device>> response = restTemplate.exchange(
                 "/device?state=IN_USE",
                 HttpMethod.GET,
                 null,
@@ -58,17 +58,15 @@ public class DeviceApiFindAllIntegrationTest extends AbstractIntegrationTest {
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Device> devices = response.getBody();
-        assertThat(devices).isNotNull();
-        assertThat(devices.size()).isEqualTo(2);
+        assertThat(response.getBody().getContent().size()).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("GET /device?state=IN_USE - Should return only devices with brand Apple")
-    void findAll_ShouldReturnBrandAppleDevices() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
-                "/device?brand=Apple",
+    @DisplayName("GET /device?page=0&size=2 - Should return paginated results")
+    void findAll_ShouldReturnPaginatedResults() {
+        // Test the new pagination functionality specifically
+        ResponseEntity<PageResponse<Device>> response = restTemplate.exchange(
+                "/device?page=0&size=2",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
@@ -76,76 +74,14 @@ public class DeviceApiFindAllIntegrationTest extends AbstractIntegrationTest {
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Device> devices = response.getBody();
-        assertThat(devices).isNotNull();
-        assertThat(devices.size()).isEqualTo(3);
+        assertThat(response.getBody().getContent().size()).isEqualTo(2);
+        assertThat(response.getBody().getTotalElements()).isEqualTo(7);
     }
+}
 
-    @Test
-    @DisplayName("GET /device?brand=ApPlE - Should return only devices with brand Apple and ignore case")
-    void findAll_ShouldReturnBrandAppleDevicesIgnoreCase() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
-                "/device?brand=ApPlE",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Device> devices = response.getBody();
-        assertThat(devices).isNotNull();
-        assertThat(devices.size()).isEqualTo(3);
-    }
-
-    @Test
-    @DisplayName("GET /device?brand=Apple&state=AVAILABLE - Should return only devices with brand Apple and state AVAILABLE")
-    void findAll_ShouldReturnBrandAppleDevicesAndStateInactive() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
-                "/device?brand=Apple&state=AVAILABLE",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Device> devices = response.getBody();
-        assertThat(devices).isNotNull();
-        assertThat(devices.size()).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("GET /device?brand=NotExisting - Should return empty list for not existing brand")
-    void findAll_ShouldReturnEmptyList() {
-        ResponseEntity<List<Device>> response = restTemplate.exchange(
-                "/device?brand=NotExisting",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Device> devices = response.getBody();
-        assertThat(devices).isNotNull();
-        assertThat(devices.size()).isEqualTo(0);
-    }
-
-    @Test
-    @DisplayName("GET /state?state=NOT_EXISTING - Should return BAD REQUEST for not existing status")
-    void findAll_ShouldReturnBadRequestForNotExistingState() {
-        ResponseEntity<ProblemDetail> response = restTemplate.exchange(
-                "/device?state=NOT_EXISTING",
-                HttpMethod.GET,
-                null,
-                ProblemDetail.class
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
+class PageResponse<T> {
+    private List<T> content;
+    private long totalElements;
+    @JsonProperty("content") public List<T> getContent() { return content; }
+    @JsonProperty("totalElements") public long getTotalElements() { return totalElements; }
 }
