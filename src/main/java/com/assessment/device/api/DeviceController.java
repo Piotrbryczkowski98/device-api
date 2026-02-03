@@ -85,7 +85,14 @@ public class DeviceController {
     public void deleteDeviceById(@PathVariable UUID id) {
         deviceService.deleteDeviceById(id);
     }
+
+    @GetMapping("/error-test")
+    public String triggerError() {
+        String nothing = null;
+        return nothing.toLowerCase();
+    }
 }
+
 
 
 
