@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -25,7 +27,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics
+        include: health, info, metrics, prometheus
   endpoint:
+    prometheus:
+      access: read_only
     health:
       show-details: always
