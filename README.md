@@ -1,5 +1,7 @@
 # Devices API
 
+This was a recruitment task for one of the companies, leaving it as public as a personal playground 
+
 A production-ready RESTful API built with **Java 21** and **Spring Boot 3** for managing device resources. This project provides full CRUD capabilities with domain-specific business logic and a containerized PostgreSQL database.
 
 ## Features
