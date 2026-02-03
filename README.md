@@ -66,16 +66,17 @@ To maintain a "production-ready" workflow and ensure granular, traceable changes
 * `test/`: Test suite implementation and coverage improvements.
 
 ### Task Roadmap & Commit History
-| Branch | Task | Description                                                     |
-| :--- | :--- |:----------------------------------------------------------------|
-| `chore/T0` | **Setup** | Project initialization, Docker/Postgres config, and Swagger UI. |
-| `feat/T1` | **Domain** | Entity mapping and Repository layer setup.                      |
-| `feat/T2` | **Creation** | POST endpoint for device registration.                          |
-| `feat/T3` | **Updates** | Full and Partial updates with domain validations.               |
-| `feat/T4` | **Retrieval** | GET endpoint for single resource lookup by ID.                  |
-| `feat/T5` | **Filtering** | Brand/State filtering using Spring Data Specifications.         |
-| `feat/T6` | **Deletion** | Logic for secure deletion (protecting `IN_USE` devices).        |
-| `test/T7` | **Testing** | Integration tests with Testcontainers and Unit testing.         |
+| Branch     | Task              | Description                                                     |
+|:-----------|:------------------|:----------------------------------------------------------------|
+| `chore/T0` | **Setup**         | Project initialization, Docker/Postgres config, and Swagger UI. |
+| `feat/T1`  | **Domain**        | Entity mapping and Repository layer setup.                      |
+| `feat/T2`  | **Creation**      | POST endpoint for device registration.                          |
+| `feat/T3`  | **Updates**       | Full and Partial updates with domain validations.               |
+| `feat/T4`  | **Retrieval**     | GET endpoint for single resource lookup by ID.                  |
+| `feat/T5`  | **Filtering**     | Brand/State filtering using Spring Data Specifications.         |
+| `feat/T6`  | **Deletion**      | Logic for secure deletion (protecting `IN_USE` devices).        |
+| `test/T7`  | **Testing**       | Integration tests with Testcontainers and Unit testing.         |
+| `chore/T8` | **Observability** | Prometheus and Grafana setup                                    |
 
 > **Note:** T7 branching should be test instead of chore, but due to late hour....
 
