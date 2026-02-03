@@ -25,9 +25,142 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 0,
+  "id": 1,
   "links": [],
   "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "4xx/5xx errors",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 99,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (status) (increase(http_server_requests_seconds_count{outcome=~\"CLIENT_ERROR|SERVER_ERROR\"}[1h]))",
+          "instant": false,
+          "legendFormat": "{{status}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Error Breakdown by Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 98,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(increase(http_server_requests_seconds_count{uri=~\"/device.*\", status=~\"2..\"}[1h]))",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Successful Requests (1h)",
+      "type": "stat"
+    },
     {
       "datasource": {
         "type": "prometheus",
@@ -60,7 +193,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 16
       },
       "id": 97,
       "options": {
@@ -99,7 +232,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 24
       },
       "id": 54,
       "panels": [],
@@ -149,7 +282,7 @@
         "h": 3,
         "w": 6,
         "x": 0,
-        "y": 9
+        "y": 25
       },
       "id": 52,
       "maxDataPoints": 100,
@@ -240,7 +373,7 @@
         "h": 6,
         "w": 5,
         "x": 6,
-        "y": 9
+        "y": 25
       },
       "id": 58,
       "maxDataPoints": 100,
@@ -338,7 +471,7 @@
         "h": 6,
         "w": 5,
         "x": 11,
-        "y": 9
+        "y": 25
       },
       "id": 60,
       "maxDataPoints": 100,
@@ -443,7 +576,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 9
+        "y": 25
       },
       "id": 66,
       "options": {
@@ -521,7 +654,7 @@
         "h": 3,
         "w": 6,
         "x": 0,
-        "y": 12
+        "y": 28
       },
       "id": 56,
       "maxDataPoints": 100,
@@ -629,7 +762,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 31
       },
       "id": 95,
       "options": {
@@ -748,7 +881,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 31
       },
       "id": 96,
       "options": {
@@ -807,7 +940,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 38
       },
       "id": 48,
       "panels": [
@@ -1530,7 +1663,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 39
       },
       "id": 72,
       "panels": [
@@ -1744,7 +1877,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 40
       },
       "id": 34,
       "panels": [
@@ -2148,7 +2281,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 41
       },
       "id": 18,
       "panels": [
@@ -2356,7 +2489,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 42
       },
       "id": 8,
       "panels": [
@@ -3046,5 +3179,5 @@
   "timezone": "",
   "title": "Device API Grafana Dashboard",
   "uid": "spring_boot_21",
-  "version": 5
+  "version": 1
 }
