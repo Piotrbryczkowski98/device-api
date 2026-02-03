@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DeviceApiApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Test PRRRR");
 		SpringApplication.run(DeviceApiApplication.class, args);
 	}
 }
